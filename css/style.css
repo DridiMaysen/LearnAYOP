@@ -559,3 +559,24 @@ select:focus-visible {
     white-space: nowrap;
     border: 0;
 }
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    /* Supprime aussi le déplacement au survol */
+    .primary-button:hover,
+    .course-card:hover,
+    .navigation button:hover:not(:disabled) {
+        transform: none;
+    }
+}
