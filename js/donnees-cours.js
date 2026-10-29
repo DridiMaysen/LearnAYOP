@@ -331,7 +331,8 @@ const donneesCours = {
 
                             <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden">
                                 <iframe
-                                    src="https://www.youtube.com/embed/FwmQ-AC29_E"
+                                class="video-cours"
+                                    src="https://www.youtube.com/embed/FwmQ-AC29_E?enablejsapi=1"
                                     title="Introduction à la théorie des files d'attente"
                                     loading="lazy"
                                     allowfullscreen
@@ -532,7 +533,8 @@ const donneesCours = {
 
                             <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden">
                                 <iframe
-                                    src="https://www.youtube.com/embed/1GKtfgwf3ig"
+                                    class="video-cours"
+                                    src="https://www.youtube.com/embed/1GKtfgwf3ig?enablejsapi=1"
                                     title="Chaînes de Markov et matrices de transition"
                                     loading="lazy"
                                     allowfullscreen
@@ -1120,7 +1122,8 @@ const donneesCours = {
 
                         <div style="position:relative;width:100%;aspect-ratio:16/9">
                             <iframe
-                                src="https://www.youtube-nocookie.com/embed/NSgckSsFxSE"
+                            class="video-cours"
+                                src="https://www.youtube-nocookie.com/embed/NSgckSsFxSE?enablejsapi=1"
                                 title="Introduction aux SGBD et à SQL"
                                 loading="lazy"
                                 allowfullscreen
@@ -1548,7 +1551,8 @@ ADD telephone VARCHAR(20);</code></pre>
 
                         <div style="position:relative;width:100%;aspect-ratio:16/9">
                             <iframe
-                                src="https://www.youtube-nocookie.com/embed/rYdTi9xljCw"
+                            class="video-cours"
+                                src="https://www.youtube-nocookie.com/embed/rYdTi9xljCw?enablejsapi=1"
                                 title="Gestion des bases et tables avec MySQL"
                                 loading="lazy"
                                 allowfullscreen
@@ -1848,7 +1852,8 @@ HAVING COUNT(*) >= 2;</code></pre>
 
                         <div style="position:relative;width:100%;aspect-ratio:16/9">
                             <iframe
-                                src="https://www.youtube-nocookie.com/embed/0Au1lJ1C_us"
+                            class="video-cours"
+                                src="https://www.youtube-nocookie.com/embed/0Au1lJ1C_us?enablejsapi=1"
                                 title="Tutoriel SQL : jointure de deux tables"
                                 loading="lazy"
                                 allowfullscreen
@@ -2237,7 +2242,8 @@ I ≈ 0,0227 A = 22,7 mA</code></pre>
 <h3>Vidéo : la loi d'Ohm</h3>
 
 <iframe
-    src="https://www.youtube-nocookie.com/embed/BBEh1aG8O2Y"
+class="video-cours"
+    src="https://www.youtube-nocookie.com/embed/BBEh1aG8O2Y?enablejsapi=1"
     title="La loi d'Ohm pour les débutants en électricité"
     loading="lazy"
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -2515,7 +2521,9 @@ R = 300 Ω</code></pre>
 
                     <h3>Vidéo : ADC et PWM</h3>
                     <p>Cette vidéo explique l'utilisation d'entrées analogiques et de la PWM sur Arduino. Elle est en anglais.</p>
-                    <iframe src="https://www.youtube-nocookie.com/embed/GQV0ElK0Nv4" title="Arduino : ADC, PWM et signaux électroniques" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px;"></iframe>
+                    <iframe src="https://www.youtube-nocookie.com/embed/GQV0ElK0Nv4?enablejsapi=1" 
+                    class="video-cours"
+                    title="Arduino : ADC, PWM et signaux électroniques" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="width:100%; aspect-ratio:16/9; border:0; border-radius:12px;"></iframe>
                     `
                 }
             ],

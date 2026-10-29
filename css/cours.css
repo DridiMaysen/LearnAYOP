@@ -801,3 +801,52 @@ body.course-page.theme-dark #lessonContent .formule {
         padding: 12px;
     }
 }
+/* Lecteur vidéo */
+.video-cours {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    display: block;
+    border: none;
+    border-radius: 10px;
+}
+
+/* Conteneur de progression */
+.video-progression {
+    width: 100%;
+    margin: 10px 0 25px;
+}
+
+.video-progression-barre {
+    position: relative;
+    width: 100%;
+    height: 9px;
+    background: #d1d5db;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.video-progression-remplissage {
+    width: 0%;
+    height: 100%;
+    background: #0f766e;
+    border-radius: 10px;
+    transition: width 0.3s;
+}
+
+/* Marqueurs à 25 %, 50 % et 75 % */
+.video-marqueur {
+    position: absolute;
+    top: 0;
+    width: 3px;
+    height: 9px;
+    background: white;
+    z-index: 1;
+}
+
+.video-temps {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 7px;
+    font-size: 13px;
+    color: #64748b;
+}

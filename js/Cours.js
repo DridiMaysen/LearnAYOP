@@ -12,6 +12,11 @@ const nextBtn = document.getElementById("nextBtn");
 const themeBtn = document.getElementById("themeBtn");
 const outlineBtn = document.getElementById("outlineBtn");
 const fullscreenBtn = document.getElementById("fullscreenBtn");
+// Gestion de la progression des vidéos
+let lecteursVideo = [];
+let intervalVideo = null;
+
+
 //correspondance entre les references et les cours (dictionnaire)
 const CORRESPONDANCE_COURS = {
     "C001": "files-attente",
@@ -22,6 +27,9 @@ const CORRESPONDANCE_COURS = {
 const parametresURL = new URLSearchParams(window.location.search);
 //on a recupere parametre id 
 const identifiantURL = parametresURL.get("id");
+// Clé de sauvegarde des vidéos du cours
+const cleProgressionVideo =
+    "learnayop_video_" + identifiantURL;
 //si l id contient le code on fait la correspondance sinon on prend le nom de cours tel qu il est
 const cleDonnees = CORRESPONDANCE_COURS[identifiantURL] || identifiantURL;
 //recuperer le cours ici cledonnee contient ex: "sgbd"
@@ -34,6 +42,8 @@ const identifiantCours =
     }) || identifiantURL;
 //je construis un cle de stockage pour la progression sous la forme learnayop_progress_C002 (ena n sauvegardi bl id mt3 l cours ema nrecuperi donne bi ism l cours)
 const cleSauvegarde = "learnayop_progress_" + identifiantCours;
+//pour le sauvegarde de la position dans le cours
+const clePosition = "learnayop_position_" + identifiantCours;
 //objectif mte3i n recuperi l progression fi kol retour ll page
 //progression initiallement vide le tableau va contenur les identifiants des parties terminee pour chaque cours
 let progression = {
@@ -91,6 +101,13 @@ function preparerCours() {
         questions: cours.quizFinal
     });
 }
+//sauvegarder la position du partir du cours
+function sauvegarderPosition() {
+    localStorage.setItem(
+        clePosition,
+        positionActuelle
+    );
+}
 // sauvegarder la progression donc pour chaque cle cours on associe progression 
 //json.stringfy 7awelneha ll chaine 5ater progression hia objet java w lkol storage matefhem ken bl taxte
 
@@ -102,6 +119,269 @@ function sauvegarderProgression() {
         );
     } catch (erreur) {
         alert("La progression n'a pas pu être sauvegardée.");
+    }
+}
+// Sauvegarder la position de lecture d'une vidéo
+function sauvegarderPositionVideo(idVideo, position) {
+
+    let donnees = {};
+
+    try {
+        donnees = JSON.parse(
+            localStorage.getItem(cleProgressionVideo)
+        ) || {};
+    } catch (erreur) {
+        donnees = {};
+    }
+
+    donnees[idVideo] = position;
+
+    localStorage.setItem(
+        cleProgressionVideo,
+        JSON.stringify(donnees)
+    );
+}
+
+// Récupérer la position sauvegardée
+function recupererPositionVideo(idVideo) {
+
+    try {
+        const donnees = JSON.parse(
+            localStorage.getItem(cleProgressionVideo)
+        ) || {};
+
+        return Number(donnees[idVideo]) || 0;
+
+    } catch (erreur) {
+        return 0;
+    }
+}
+
+// Formater les secondes en minutes et secondes
+function formaterTemps(secondes) {
+
+    const minutes = Math.floor(secondes / 60);
+    const secondesRestantes = Math.floor(secondes % 60);
+
+    return minutes + ":" +
+        String(secondesRestantes).padStart(2, "0");
+}
+
+// Initialiser les vidéos de la leçon
+function initialiserVideos() {
+
+    const videos = lessonContent.querySelectorAll(
+        "iframe.video-cours"
+    );
+
+    videos.forEach(function (iframe, index) {
+
+        // Identifiant unique de la vidéo
+        const idVideo = iframe.id ||
+            "video-" + positionActuelle + "-" + index;
+
+        iframe.id = idVideo;
+
+        // Créer la barre de progression
+        const conteneur = document.createElement("div");
+        conteneur.className = "video-progression";
+
+        const barre = document.createElement("div");
+        barre.className = "video-progression-barre";
+
+        const remplissage = document.createElement("div");
+        remplissage.className = "video-progression-remplissage";
+
+        barre.appendChild(remplissage);
+
+        // Ajouter les marqueurs 25 %, 50 % et 75 %
+        [25, 50, 75].forEach(function (pourcentage) {
+
+            const marqueur = document.createElement("span");
+            marqueur.className = "video-marqueur";
+            marqueur.style.left = pourcentage + "%";
+
+            barre.appendChild(marqueur);
+        });
+
+        const temps = document.createElement("div");
+        temps.className = "video-temps";
+
+        const tempsActuel = document.createElement("span");
+        tempsActuel.textContent = "0:00";
+
+        const dureeVideo = document.createElement("span");
+        dureeVideo.textContent = "0:00";
+
+        temps.appendChild(tempsActuel);
+        temps.appendChild(dureeVideo);
+
+        conteneur.appendChild(barre);
+        conteneur.appendChild(temps);
+
+        iframe.insertAdjacentElement("afterend", conteneur);
+
+        // Créer le lecteur YouTube
+        const lecteur = new YT.Player(idVideo, {
+
+            events: {
+
+                // Lorsque la vidéo est prête
+                onReady: function (evenement) {
+
+                    const duree = evenement.target.getDuration();
+
+                    dureeVideo.textContent =
+                        formaterTemps(duree);
+
+                    // Reprendre à la position sauvegardée
+                    const position = recupererPositionVideo(idVideo);
+
+                    if (position > 0 && position < duree) {
+                        evenement.target.seekTo(position, true);
+                    }
+                },
+
+                // Lorsque la vidéo est terminée
+                onStateChange: function (evenement) {
+
+                    if (
+                        evenement.data === YT.PlayerState.ENDED
+                    ) {
+
+                        // Sauvegarder la durée totale
+                        sauvegarderPositionVideo(
+                            idVideo,
+                            evenement.target.getDuration()
+                        );
+
+                        // Marquer la leçon comme terminée
+                        const element =
+                            contenuCours[positionActuelle];
+
+                        if (element && element.type === "partie") {
+                            terminerElement(element.id);
+                            afficherModules();
+                            actualiserProgressionCours();
+                        }
+                    }
+                }
+            }
+        });
+
+        lecteursVideo.push({
+            lecteur: lecteur,
+            id: idVideo,
+            remplissage: remplissage,
+            tempsActuel: tempsActuel,
+            duree: dureeVideo
+        });
+    });
+
+    // Actualiser les barres chaque seconde
+    demarrerActualisationVideo();
+}
+
+// Actualiser la progression des vidéos
+function demarrerActualisationVideo() {
+
+    if (intervalVideo) {
+        clearInterval(intervalVideo);
+    }
+
+    intervalVideo = setInterval(function () {
+
+        lecteursVideo.forEach(function (video) {
+
+            try {
+
+                const position =
+                    video.lecteur.getCurrentTime();
+
+                const duree =
+                    video.lecteur.getDuration();
+
+                if (duree > 0) {
+
+                    const pourcentage =
+                        (position / duree) * 100;
+
+                    // Actualiser la barre
+                    video.remplissage.style.width =
+                        pourcentage + "%";
+
+                    // Actualiser le temps
+                    video.tempsActuel.textContent =
+                        formaterTemps(position);
+
+                    video.duree.textContent =
+                        formaterTemps(duree);
+
+                    // Sauvegarder la position
+                    if (
+                        video.lecteur.getPlayerState() ===
+                        YT.PlayerState.PLAYING
+                    ) {
+                        sauvegarderPositionVideo(
+                            video.id,
+                            position
+                        );
+                    }
+                }
+
+            } catch (erreur) {
+                // Le lecteur peut ne pas être encore prêt
+            }
+        });
+
+    }, 1000);
+}
+
+// Arrêter les lecteurs avant de changer de leçon
+function arreterVideos() {
+
+    if (intervalVideo) {
+        clearInterval(intervalVideo);
+        intervalVideo = null;
+    }
+
+    lecteursVideo.forEach(function (video) {
+
+        try {
+            const position =
+                video.lecteur.getCurrentTime();
+
+            sauvegarderPositionVideo(video.id, position);
+
+            video.lecteur.destroy();
+
+        } catch (erreur) {
+            console.error("Erreur vidéo :", erreur);
+        }
+    });
+
+    lecteursVideo = [];
+}
+// Charger l'API YouTube
+function chargerAPIYouTube() {
+
+    if (window.YT && window.YT.Player) {
+        initialiserVideos();
+        return;
+    }
+
+    window.onYouTubeIframeAPIReady = function () {
+        initialiserVideos();
+    };
+
+    if (!document.getElementById("youtube-api")) {
+
+        const script = document.createElement("script");
+
+        script.id = "youtube-api";
+        script.src = "https://www.youtube.com/iframe_api";
+
+        document.head.appendChild(script);
     }
 }
 //verifier si l element dont l id= est terminee (true false)
@@ -300,17 +580,36 @@ function afficherModules() {
     moduleList.appendChild(blocFinal);
 }
 function changerDeContenu(nouvellePosition) {
+
     if (nouvellePosition !== positionActuelle) {
+
         const contenuPrecedent = contenuCours[positionActuelle];
-        //ken les parties ki no5roj menhom najm nmarkihom comme terminee les quiz ken manjeweb b shih
+
         if (contenuPrecedent && contenuPrecedent.type === "partie") {
-            terminerElement(contenuPrecedent.id);
+
+            // Vérifier si la leçon contient une vidéo
+            const contientVideo = lessonContent.querySelector(
+                "iframe.video-cours"
+            );
+
+            // Les leçons sans vidéo gardent leur ancien fonctionnement
+            if (!contientVideo) {
+                terminerElement(contenuPrecedent.id);
+            }
         }
+
+        // Sauvegarder et arrêter les vidéos
+        arreterVideos();
     }
-    //lposition actuelle n incrementiha w n affichi contnu jdid w les modules w n actualisi l progression
+
     positionActuelle = nouvellePosition;
+
+    sauvegarderPosition();
+
     afficherContenu();
+
     afficherModules();
+
     actualiserProgressionCours();
 }
 
@@ -332,6 +631,8 @@ function afficherContenu() {
         lessonTitle.textContent = element.titre;
         //puisque e donnee mte3i en html deja donc 7atitha fi innerhtml 
         lessonContent.innerHTML = element.partie.contenu;
+        // Charger et initialiser les vidéos
+        chargerAPIYouTube();    
         //kenou quiz yaffichi mt3 quiz w y3ayet ll afficherquiz
     } else if (element.type === "quiz") {
         lessonInfo.textContent = element.module.titre + " • Quiz";
@@ -547,8 +848,22 @@ if (!cours) {
     prevBtn.disabled = true;
     nextBtn.disabled = true;
 } else {
-    //affichage normal de cours
     preparerCours();
+
+    // Récupérer la dernière position sauvegardée
+    const positionSauvegardee = Number(
+        localStorage.getItem(clePosition)
+    );
+
+    // Vérifier que la position existe et est valide
+    if (
+        Number.isInteger(positionSauvegardee) &&
+        positionSauvegardee >= 0 &&
+        positionSauvegardee < contenuCours.length
+    ) {
+        positionActuelle = positionSauvegardee;
+    }
+
     afficherContenu();
     afficherModules();
     actualiserProgressionCours();
