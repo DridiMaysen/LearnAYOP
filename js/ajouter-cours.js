@@ -46,7 +46,8 @@
         var max = 0;
         CATALOGUE.map(function (c) { return c.id; })
             .concat(liste.map(function (c) { return c.meta.id; }))
-            .forEach(function (id) {
+.concat(A.lireSupprimes()) //
+.forEach(function (id) {
                 var n = parseInt(String(id).replace(/\D/g, ''), 10);
                 if (n > max) max = n;
             });

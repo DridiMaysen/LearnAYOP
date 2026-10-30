@@ -3,6 +3,7 @@
 (function () {
     var CLE_COURS = 'learnayop_cours_admin';
     var CLE_MEDIAS = 'learnayop_medias_admin';
+    var CLE_SUPPRIMES = 'learnayop_cours_supprimes'; // ids des cours supprimés par l'admin
 
     function lire(cle, defaut) {
         try {
@@ -77,7 +78,16 @@
             donneesCours[meta.cle] = JSON.parse(JSON.stringify(entree.cours));
         }
     });
-
+    // 1 bis) Cours supprimés par l'admin : retirés du catalogue et des données
+var supprimes = lire(CLE_SUPPRIMES, []);
+if (supprimes.length) {
+    for (var i = window.CATALOGUE.length - 1; i >= 0; i--) {
+        if (supprimes.indexOf(window.CATALOGUE[i].id) !== -1) {
+            if (aDonnees) delete donneesCours[window.CATALOGUE[i].cle];
+            window.CATALOGUE.splice(i, 1);
+        }
+    }
+}
     // 2) Photos / vidéos ajoutées dans les leçons (cours existants ou créés)
     if (aDonnees) {
         var medias = lire(CLE_MEDIAS, {});
@@ -107,12 +117,48 @@
             });
         });
     }
+    function supprimerCours(id) {
+    var meta = window.CATALOGUE.filter(function (c) { return c.id === id; })[0];
+
+    // copie locale créée via « Ajouter un cours »
+    var locaux = lire(CLE_COURS, []);
+    var restants = locaux.filter(function (c) { return c.meta.id !== id; });
+    if (restants.length !== locaux.length) ecrire(CLE_COURS, restants);
+
+    // médias ajoutés dans les leçons
+    if (meta) {
+        var medias = lire(CLE_MEDIAS, {});
+        delete medias[meta.cle];
+        ecrire(CLE_MEDIAS, medias);
+    }
+
+    // cours présent dans catalogue.js / donnees-cours.js : on mémorise la suppression
+    var estDansFichiers = !locaux.some(function (c) { return c.meta.id === id; }) ||
+        publies.indexOf(id) !== -1;
+    var liste = lire(CLE_SUPPRIMES, []);
+    if (estDansFichiers && liste.indexOf(id) === -1) {
+        liste.push(id);
+        ecrire(CLE_SUPPRIMES, liste);
+    }
+
+    // progression des étudiants sur ce navigateur
+    try {
+        var prog = JSON.parse(localStorage.getItem('learnayop_progress')) || {};
+        delete prog[id];
+        localStorage.setItem('learnayop_progress', JSON.stringify(prog));
+        ['learnayop_progress_', 'learnayop_position_', 'learnayop_video_'].forEach(function (p) {
+            localStorage.removeItem(p + id);
+        });
+    } catch (e) { }
+}
 
     window.CoursAdmin = {
         publies: publies,
         lireCours: function () { return lire(CLE_COURS, []); },
         ecrireCours: function (liste) { return ecrire(CLE_COURS, liste); },
         lireMedias: function () { return lire(CLE_MEDIAS, {}); },
-        ecrireMedias: function (m) { return ecrire(CLE_MEDIAS, m); }
+        ecrireMedias: function (m) { return ecrire(CLE_MEDIAS, m); },
+        supprimerCours: supprimerCours,
+        lireSupprimes: function () { return lire(CLE_SUPPRIMES, []); },
     };
 })();

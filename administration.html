@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/progress.css">
+    <link rel="stylesheet" href="css/admin.css">
 </head>
 
 <body>
@@ -79,11 +80,29 @@
     <script src="js/cours-admin-store.js"></script>
     <script src="js/courses-render.js"></script>
     <script>
-        // Administration : on retire le lien « Voir le cours » de chaque carte
-        document.querySelectorAll('.course-button').forEach(function (b) {
-            b.remove();
+    document.querySelectorAll('.course-card').forEach(function (carte) {
+        var bouton = carte.querySelector('.course-button');
+        if (bouton) bouton.remove();
+
+        var id = carte.dataset.id;
+        var titre = carte.querySelector('h2').textContent;
+
+        var actions = document.createElement('div');
+        actions.className = 'admin-actions';
+        actions.innerHTML =
+            '<button type="button" class="admin-btn danger" data-action="supprimer">' +
+            '<i class="fa-solid fa-trash" aria-hidden="true"></i> Supprimer</button>';
+        carte.querySelector('.course-info').appendChild(actions);
+
+        actions.querySelector('button').addEventListener('click', function () {
+            var ok = confirm('Supprimer définitivement le cours « ' + titre + ' » (' + id + ') ?\n' +
+                'Il disparaîtra aussi côté étudiant, avec sa progression. Cette action est irréversible.');
+            if (!ok) return;
+            CoursAdmin.supprimerCours(id);
+            location.reload();
         });
-         </script>
+    });
+</script>
     <script src="js/progress.js"></script>
     <script src="js/search.js"></script>
 </body>
