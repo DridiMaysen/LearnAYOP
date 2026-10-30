@@ -850,3 +850,19 @@ body.course-page.theme-dark #lessonContent .formule {
     font-size: 13px;
     color: #64748b;
 }
+
+.medias-cours { margin-top: 28px; }
+.media-cours { margin: 20px 0; }
+.media-cours img,
+.media-cours video {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+}
+.media-cours figcaption {
+    margin-top: 8px;
+    font-size: 13px;
+    opacity: 0.75;
+    text-align: center;
+}

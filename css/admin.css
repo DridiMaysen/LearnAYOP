@@ -1,0 +1,221 @@
+[hidden] { display: none !important; }
+
+button.primary-button { border: none; cursor: pointer; }
+
+.admin-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+}
+.admin-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: var(--white);
+    border: 1px solid #99d5cf;
+    border-radius: 8px;
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.admin-btn:hover { background: var(--primary-light); }
+.admin-btn.danger { color: #b91c1c; border-color: #fca5a5; }
+.admin-btn.danger:hover { background: #fee2e2; }
+
+.badge-local { background: #fef3c7; color: #92400e; }
+
+.admin-notice {
+    margin-bottom: 24px;
+    padding: 14px 18px;
+    background: #fffbeb;
+    border: 1px solid #fcd34d;
+    border-radius: var(--radius);
+    font-size: 13px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.admin-panel {
+    margin: 0 7% 50px;
+    padding: 28px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+.admin-panel h2 { margin-bottom: 20px; font-size: 24px; }
+.admin-panel h3 { margin: 26px 0 12px; }
+.admin-panel h4 { margin: 18px 0 10px; color: var(--primary); }
+.admin-panel label {
+    display: block;
+    margin-bottom: 14px;
+    font-size: 13px;
+    font-weight: 700;
+}
+.admin-panel input[type="text"],
+.admin-panel select,
+.admin-panel textarea {
+    width: 100%;
+    margin-top: 6px;
+    padding: 10px 12px;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font: inherit;
+    font-weight: 400;
+    color: var(--text);
+}
+.admin-panel textarea { resize: vertical; }
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 18px;
+}
+.form-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+.aide { color: var(--muted); font-size: 12px; margin: 6px 0 10px; }
+
+.bloc-module {
+    margin: 18px 0;
+    padding: 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+.bloc-module legend { padding: 0 8px; font-weight: 800; color: var(--primary); }
+.bloc-partie,
+.bloc-question {
+    margin-bottom: 12px;
+    padding: 14px;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.admin-panel .q-opt { display: flex; align-items: center; gap: 10px; }
+.q-opt .q-option { margin-top: 0; }
+.q-opt input[type="radio"] { width: auto; margin: 0; }
+
+#export-code {
+    min-height: 320px;
+    font-family: Consolas, monospace;
+    font-size: 12px;
+}
+
+#liste-medias { list-style: none; }
+#liste-medias li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+}
+
+@media (max-width: 700px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .admin-panel { margin: 0 6% 40px; padding: 18px; }
+}
+/* Boutons alignés à droite sur une seule ligne */
+.actions-partie {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+}
+.actions-partie .admin-btn { white-space: nowrap; }
+
+/* Liste des médias : texte à gauche, bouton « Retirer » à droite */
+.liste-medias {
+    list-style: none;
+    margin: 10px 0 0;
+    padding: 0;
+}
+.liste-medias li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+}
+.liste-medias li .admin-btn { margin-left: auto; white-space: nowrap; }
+
+/* Bloc média */
+.bloc-media {
+    margin: 12px 0;
+    padding: 12px;
+    border: 1px dashed #a3c4b6;
+    border-radius: 10px;
+}
+.bloc-media [hidden] { display: none !important; }
+
+
+@media (max-width: 500px) {
+    .actions-partie { flex-wrap: wrap; }
+}
+/* Titre à gauche, bouton de retour à droite sur la même ligne */
+.entete-ajout {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+.entete-ajout .reset-button {
+    white-space: nowrap;
+    text-decoration: none;
+}
+/* ===== Tous les boutons alignés à droite ===== */
+
+/* Boutons d'action d'une leçon : Ajouter à la leçon / Supprimer la leçon */
+.actions-partie {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+/* Boutons "Retirer" dans la liste des médias */
+.liste-medias li .admin-btn { margin-left: auto; }
+
+/* Boutons sous les modules et les quiz :
+   + Ajouter une leçon, + Ajouter une question, Supprimer le module, etc. */
+.bloc-module > .admin-btn,
+.bloc-question > .admin-btn,
+.bloc-partie > .admin-btn,
+#liste-modules + .admin-btn,
+#liste-quiz-final + .admin-btn {
+    display: flex;
+    margin-left: auto;
+    margin-top: 10px;
+}
+
+/* Enregistrer / Annuler */
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+/* Bouton de retour en haut */
+.entete-ajout {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+.entete-ajout .reset-button {
+    white-space: nowrap;
+    text-decoration: none;
+}

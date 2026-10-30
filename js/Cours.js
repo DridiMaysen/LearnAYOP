@@ -18,11 +18,10 @@ let intervalVideo = null;
 
 
 //correspondance entre les references et les cours (dictionnaire)
-const CORRESPONDANCE_COURS = {
-    "C001": "files-attente",
-    "C002": "sgbd",
-    "C003": "electricite-electronique"
-};
+const CORRESPONDANCE_COURS = {};
+(window.CATALOGUE || []).forEach(function (c) {
+    CORRESPONDANCE_COURS[c.id] = c.cle;
+});
 //avec window.location.search on recupere la partie apres ? dans l url qui contient les params
 const parametresURL = new URLSearchParams(window.location.search);
 //on a recupere parametre id 

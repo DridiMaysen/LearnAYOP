@@ -30,42 +30,34 @@
                 <i class="fa-solid fa-circle-play" aria-hidden="true"></i>
                 Mes cours commencés
             </a>
+            <a href="administration.html">
+                <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
+                Administration
+            </a>
         </nav>
     </header>
     <main>
         <div class="topbar">
             <label class="search-box">
                 <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-                <input
-                    type="search"
-                    id="search-input"
-                    placeholder="Rechercher un cours (nom, id, matière...)"
-                >
+                <input type="search" id="search-input"
+                       placeholder="Rechercher un cours (nom, id, matière...)">
             </label>
-            <select
-                id="filter-level"
-                class="filter-select"
-                aria-label="Filtrer par niveau"
-            >
+            <select id="filter-level" class="filter-select" aria-label="Filtrer par niveau">
                 <option value="">Tous les niveaux</option>
                 <option value="Licence">Licence</option>
                 <option value="Cycle">Cycle</option>
                 <option value="Master">Master</option>
             </select>
-            <select
-                id="filter-subject"
-                class="filter-select"
-                aria-label="Filtrer par matière"
-            >
+            <select id="filter-subject" class="filter-select" aria-label="Filtrer par matière">
                 <option value="">Toutes les matières</option>
                 <option value="Math">Math</option>
                 <option value="Info">Info</option>
                 <option value="Elec">Élec</option>
             </select>
-            <button type="button" id="reset-filters" class="reset-button">
-                Réinitialiser
-            </button>
+            <button type="button" id="reset-filters" class="reset-button">Réinitialiser</button>
         </div>
+
         <section class="popular-courses section-container">
             <div class="section-heading">
                 <div>
@@ -73,103 +65,9 @@
                     <h1>Tous les cours</h1>
                 </div>
             </div>
-            <div class="course-grid">
-                <article
-                    class="course-card"
-                    data-id="C001"
-                    data-niveau="Cycle"
-                    data-matiere="Math"
-                >
-                    <div class="course-cover cover-python">
-                        <span>TFA</span>
-                        <i class="fa-solid fa-calculator course-emoji" aria-hidden="true"></i>
-                    </div>
-                    <div class="course-info">
-                        <span class="course-tag">Mathématiques</span>
-                        <h2>TFA</h2>
-                        <p>Cours de TFA : notions fondamentales et exercices.</p>
-                        <div class="course-badges">
-                            <span class="badge badge-id">C001</span>
-                            <span class="badge">Cycle</span>
-                            <span class="badge">Math</span>
-                        </div>
-                        <div class="course-meta">
-                            <span>
-                                <i class="fa-solid fa-book-open" aria-hidden="true"></i>
-                                8 leçons
-                            </span>
-                            <span>Intermédiaire</span>
-                        </div>
-                        <a href="course.html?id=C001" class="course-button">
-                            Voir le cours
-                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                </article>
-                <article
-                    class="course-card"
-                    data-id="C002"
-                    data-niveau="Cycle"
-                    data-matiere="Info"
-                >
-                    <div class="course-cover cover-html">
-                        <span>SGBD</span>
-                        <i class="fa-solid fa-database course-emoji" aria-hidden="true"></i>
-                    </div>
-                    <div class="course-info">
-                        <span class="course-tag">Informatique</span>
-                        <h2>SGBD</h2>
-                        <p>Systèmes de gestion de bases de données : modèle relationnel et SQL.</p>
-                        <div class="course-badges">
-                            <span class="badge badge-id">C002</span>
-                            <span class="badge">Cycle</span>
-                            <span class="badge">Info</span>
-                        </div>
-                        <div class="course-meta">
-                            <span>
-                                <i class="fa-solid fa-book-open" aria-hidden="true"></i>
-                                10 leçons
-                            </span>
-                            <span>Intermédiaire</span>
-                        </div>
-                        <a href="course.html?id=C002" class="course-button">
-                            Voir le cours
-                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                </article>
-                <article
-                    class="course-card"
-                    data-id="C003"
-                    data-niveau="Licence"
-                    data-matiere="Elec"
-                >
-                    <div class="course-cover cover-js">
-                        <span>Électricité &amp; Électronique</span>
-                        <i class="fa-solid fa-bolt course-emoji" aria-hidden="true"></i>
-                    </div>
-                    <div class="course-info">
-                        <span class="course-tag">Électronique</span>
-                        <h2>Électricité et électronique</h2>
-                        <p>Circuits, lois fondamentales et composants électroniques.</p>
-                        <div class="course-badges">
-                            <span class="badge badge-id">C003</span>
-                            <span class="badge">Licence</span>
-                            <span class="badge">Élec</span>
-                        </div>
-                        <div class="course-meta">
-                            <span>
-                                <i class="fa-solid fa-book-open" aria-hidden="true"></i>
-                                9 leçons
-                            </span>
-                            <span>Débutant</span>
-                        </div>
-                        <a href="course.html?id=C003" class="course-button">
-                            Voir le cours
-                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                </article>
+
+            <!-- Les cartes sont générées par courses-render.js -->
+            <div class="course-grid" id="course-grid">
                 <p class="no-results" id="no-results">
                     Aucun cours ne correspond à votre recherche.
                 </p>
@@ -181,7 +79,12 @@
         <p>Apprendre aujourd'hui, réussir demain.</p>
         <p>© 2026 LearnAYOP — Mini plateforme d'apprentissage.</p>
     </footer>
+
     <script src="js/menu.js" defer></script>
+    <script src="js/catalogue.js"></script>
+    <script src="js/donnees-cours.js"></script>
+    <script src="js/cours-admin-store.js"></script>
+    <script src="js/courses-render.js"></script>
     <script src="js/progress.js"></script>
     <script src="js/search.js"></script>
 </body>
