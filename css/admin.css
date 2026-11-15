@@ -144,6 +144,11 @@ button.primary-button { border: none; cursor: pointer; }
     border: 1px dashed #a3c4b6;
     border-radius: 10px;
 }
+.bloc-media h4 {
+    margin: 0 0 10px;
+    font-size: 14px;
+    color: var(--text);
+}
 .bloc-media [hidden] { display: none !important; }
 
 @media (max-width: 500px) {

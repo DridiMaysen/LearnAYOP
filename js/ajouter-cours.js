@@ -160,7 +160,7 @@
             '<label>Contenu (texte simple ou HTML) <textarea class="p-contenu" rows="6" required></textarea></label>' +
 
             '<div class="bloc-media">' +
-                '<h5>Photos et vidéos de cette leçon</h5>' +
+                '<h4>Photos et vidéos de cette leçon</h4>' +
                 '<label>Type de média ' +
                     '<select class="med-type">' +
                         '<option value="photo-fichier">Photo (depuis mon ordinateur)</option>' +
@@ -186,12 +186,12 @@
         return '<fieldset class="bloc-module">' +
             '<legend>Module</legend>' +
             '<label>Titre du module <input type="text" class="m-titre" placeholder="Module 1 : Introduction" required></label>' +
-            '<h4>Leçons</h4>' +
+            '<h3>Leçons</h3>' +
             '<div class="liste-parties">' + htmlPartie() + '</div>' +
             '<div class="actions-partie">' +
                 '<button type="button" class="admin-btn" data-action="add-partie">+ Ajouter une leçon</button>' +
             '</div>' +
-            '<h4>Quiz du module</h4>' +
+            '<h3>Quiz du module</h3>' +
             '<div class="liste-questions">' + htmlQuestion() + '</div>' +
             '<div class="actions-partie">' +
                 '<button type="button" class="admin-btn" data-action="add-question">+ Ajouter une question</button>' +
