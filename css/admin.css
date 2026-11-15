@@ -120,16 +120,6 @@ button.primary-button { border: none; cursor: pointer; }
     .form-grid { grid-template-columns: 1fr; }
     .admin-panel { margin: 0 6% 40px; padding: 18px; }
 }
-/* Boutons alignés à droite sur une seule ligne */
-.actions-partie {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 8px;
-    margin-top: 12px;
-}
-.actions-partie .admin-btn { white-space: nowrap; }
 
 /* Liste des médias : texte à gauche, bouton « Retirer » à droite */
 .liste-medias {
@@ -146,7 +136,6 @@ button.primary-button { border: none; cursor: pointer; }
     border-bottom: 1px solid var(--border);
     font-size: 13px;
 }
-.liste-medias li .admin-btn { margin-left: auto; white-space: nowrap; }
 
 /* Bloc média */
 .bloc-media {
@@ -157,22 +146,10 @@ button.primary-button { border: none; cursor: pointer; }
 }
 .bloc-media [hidden] { display: none !important; }
 
-
 @media (max-width: 500px) {
     .actions-partie { flex-wrap: wrap; }
 }
-/* Titre à gauche, bouton de retour à droite sur la même ligne */
-.entete-ajout {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
-}
-.entete-ajout .reset-button {
-    white-space: nowrap;
-    text-decoration: none;
-}
+
 /* ===== Tous les boutons alignés à droite ===== */
 
 /* Boutons d'action d'une leçon : Ajouter à la leçon / Supprimer la leçon */
@@ -183,9 +160,13 @@ button.primary-button { border: none; cursor: pointer; }
     gap: 8px;
     margin-top: 12px;
 }
+.actions-partie .admin-btn { white-space: nowrap; }
 
 /* Boutons "Retirer" dans la liste des médias */
-.liste-medias li .admin-btn { margin-left: auto; }
+.liste-medias li .admin-btn {
+    margin-left: auto;
+    white-space: nowrap;
+}
 
 /* Boutons sous les modules et les quiz :
    + Ajouter une leçon, + Ajouter une question, Supprimer le module, etc. */
@@ -218,4 +199,23 @@ button.primary-button { border: none; cursor: pointer; }
 .entete-ajout .reset-button {
     white-space: nowrap;
     text-decoration: none;
+}
+
+/* Style du bouton Modifier (balise <a>) et des cours masqués */
+a.admin-btn { text-decoration: none; }
+
+.course-card.cours-masque {
+    opacity: 0.65;
+    border-style: dashed;
+}
+
+.badge-masque {
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: #fee2e2;
+    color: #991b1b;
+    font-size: 11px;
+    font-weight: 700;
 }

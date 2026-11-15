@@ -2,34 +2,35 @@
 // Navbar commune à toutes les pages.
 $pageCourante = basename($_SERVER['SCRIPT_NAME']);   // ex : "index.php"
 $utilisateur  = utilisateur_courant();               // null si personne n'est connecté
+$estAdmin     = $utilisateur && $utilisateur['role'] === 'admin';
 
 // Petite fonction : renvoie ' class="active"' si on est sur cette page
 $actif = static fn(string $p): string => $pageCourante === $p ? ' class="active"' : '';
 ?>
 <header class="navbar">
-    <a href="index.php" class="logo">Learn<span>AYOP</span></a>
+    <a href="<?= $estAdmin ? 'administration.php' : 'index.php' ?>" class="logo">Learn<span>AYOP</span></a>
     <button class="burger" id="burger" type="button"
             aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="main-nav">
         <i class="fa-solid fa-bars" aria-hidden="true"></i>
     </button>
     <nav class="nav-links" id="main-nav" aria-label="Navigation principale">
-        <a href="index.php"<?= $actif('index.php') ?>>
-            <i class="fa-solid fa-house" aria-hidden="true"></i> Accueil
-        </a>
-        <a href="courses.php"<?= $actif('courses.php') ?>>
-            <i class="fa-solid fa-book-open" aria-hidden="true"></i> Tous les cours
-        </a>
+        <?php if ($estAdmin): ?>
+            <a href="administration.php"<?= $actif('administration.php') ?>>
+                <i class="fa-solid fa-user-shield" aria-hidden="true"></i> Administration
+            </a>
+        <?php else: ?>
+            <a href="index.php"<?= $actif('index.php') ?>>
+                <i class="fa-solid fa-house" aria-hidden="true"></i> Accueil
+            </a>
+            <a href="courses.php"<?= $actif('courses.php') ?>>
+                <i class="fa-solid fa-book-open" aria-hidden="true"></i> Tous les cours
+            </a>
 
-        <?php if ($utilisateur): ?>
-        <a href="dashboard.php#en-cours"<?= $actif('dashboard.php') ?>>
-            <i class="fa-solid fa-circle-play" aria-hidden="true"></i> Mes cours commencés
-        </a>
-        <?php endif; ?>
-
-        <?php if ($utilisateur && $utilisateur['role'] === 'admin'): ?>
-        <a href="administration.php"<?= $actif('administration.php') ?>>
-            <i class="fa-solid fa-user-shield" aria-hidden="true"></i> Administration
-        </a>
+            <?php if ($utilisateur): ?>
+                <a href="dashboard.php#en-cours"<?= $actif('dashboard.php') ?>>
+                    <i class="fa-solid fa-circle-play" aria-hidden="true"></i> Mes cours commencés
+                </a>
+            <?php endif; ?>
         <?php endif; ?>
 
         <?php if ($utilisateur): ?>

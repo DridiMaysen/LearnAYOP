@@ -54,15 +54,13 @@ require __DIR__ . '/includes/bootstrap.php';
         </section>
     </main>
     <footer class="footer">
-        <a href="index.html" class="logo">Learn<span>AYOP</span></a>
+        <a href="index.php" class="logo">Learn<span>AYOP</span></a>
         <p>Apprendre aujourd'hui, réussir demain.</p>
         <p>© 2026 LearnAYOP — Mini plateforme d'apprentissage.</p>
     </footer>
 
     <script src="js/menu.js" defer></script>
-    <script src="js/catalogue.js"></script>
-    <script src="js/donnees-cours.js"></script>
-    <script src="js/cours-admin-store.js"></script>
+    <script src="php/cours_js.php"></script>
     <script src="js/courses-render.js"></script>
     <script src="js/progress.js"></script>
     <script src="js/search.js"></script>

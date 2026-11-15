@@ -16,7 +16,7 @@ exiger_connexion();
     <script src="js/api.js" defer></script>
 </head>
 <body>
-   <?php require __DIR__ . '/includes/navbar.php'; ?>
+    <?php require __DIR__ . '/includes/navbar.php'; ?>
     <main>
         <section class="section-container" id="en-cours">
             <div class="section-heading">
@@ -24,7 +24,7 @@ exiger_connexion();
                     <p class="eyebrow">MA PROGRESSION</p>
                     <h1>Mes cours commencés</h1>
                 </div>
-                <a href="courses.html" class="text-link">
+                <a href="courses.php" class="text-link">
                     Tous les cours
                     <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
                 </a>
@@ -35,7 +35,7 @@ exiger_connexion();
             <div class="course-grid" id="started-list"></div>
             <p class="empty-state" id="started-empty">
                 Vous n'avez pas encore commencé de cours.
-                <a href="courses.html">
+                <a href="courses.php">
                     Découvrir les cours
                     <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
                 </a>
@@ -43,13 +43,12 @@ exiger_connexion();
         </section>
     </main>
     <footer class="footer">
-        <a href="index.html" class="logo">Learn<span>AYOP</span></a>
+        <a href="index.php" class="logo">Learn<span>AYOP</span></a>
         <p>Apprendre aujourd'hui, réussir demain.</p>
         <p>© 2026 LearnAYOP — Mini plateforme d'apprentissage.</p>
     </footer>
     <script src="js/menu.js" defer></script>
-<script src="js/catalogue.js"></script>
-<script src="js/cours-admin-store.js"></script>
-<script src="js/progress.js"></script>
+    <script src="php/cours_js.php"></script>
+    <script src="js/progress.js"></script>
 </body>
 </html>

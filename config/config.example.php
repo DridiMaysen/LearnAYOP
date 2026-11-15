@@ -1,13 +1,13 @@
 <?php
-// Paramètres de l'application. Ce fichier ne doit jamais être publié (GitHub, etc.).
 return [
     'db' => [
         'host'    => 'localhost',
+        'port'    => 3308,
         'name'    => 'learnayop',
-        'user'    => 'root',      // XAMPP : root
-        'pass'    => '',          // XAMPP : mot de passe vide
+        'user'    => 'root',
+        'pass'    => 'motdepasse',
         'charset' => 'utf8mb4',
     ],
-    'session_inactivite' => 1800, // déconnexion après 30 min sans activité
-    'debug'              => true, // true en local, false si le site est publié
+    'session_inactivite' => 1800,
+    'debug'              => true,
 ];

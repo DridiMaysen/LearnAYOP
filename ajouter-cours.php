@@ -9,7 +9,7 @@ exiger_admin();
     <?= csrf_meta() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajouter un cours - LearnAYOP</title>
-     <meta name="description" content="Ajouter les cours dans LearnAYOP.">
+    <meta name="description" content="Ajouter les cours dans LearnAYOP.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/admin.css">
@@ -19,12 +19,12 @@ exiger_admin();
 
     <main>
         <section class="admin-panel section-container">
-                        <div class="entete-ajout">
+            <div class="entete-ajout">
                 <div>
                     <p class="eyebrow">ADMINISTRATION</p>
                     <h1>Ajouter un cours</h1>
                 </div>
-                <a href="administration.html" class="reset-button">← Retour aux cours</a>
+                <a href="administration.php" class="reset-button">← Retour aux cours</a>
             </div>
 
             <form id="form-cours">
@@ -73,22 +73,21 @@ exiger_admin();
 
                 <div class="form-actions">
                     <button type="submit" class="primary-button">Enregistrer le cours</button>
-                    <a href="administration.html" class="reset-button">Annuler</a>
+                    <a href="administration.php" class="reset-button">Annuler</a>
                 </div>
             </form>
         </section>
     </main>
 
     <footer class="footer">
-        <a href="index.html" class="logo">Learn<span>AYOP</span></a>
+        <a href="index.php" class="logo">Learn<span>AYOP</span></a>
         <p>Apprendre aujourd'hui, réussir demain.</p>
         <p>© 2026 LearnAYOP — Mini plateforme d'apprentissage.</p>
     </footer>
 
-    <script src="js/menu.js" defer></script>
-    <script src="js/catalogue.js"></script>
-    <script src="js/donnees-cours.js"></script>
-    <script src="js/cours-admin-store.js"></script>
+   <script src="js/menu.js" defer></script>
+    <script src="js/api.js"></script>
+    <script src="php/cours_js.php"></script>
     <script src="js/ajouter-cours.js"></script>
 </body>
 </html>
