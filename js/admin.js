@@ -101,7 +101,7 @@
                     '<span>' + esc(meta.difficulte) + '</span>' +
                 '</div>' +
                 '<div class="admin-actions">' +
-                    '<a class="admin-btn" href="course.html?id=' + id + '">' +
+                    '<a class="admin-btn" href="course.php?id=' + id + '">' +
                         '<i class="fa-solid fa-eye" aria-hidden="true"></i> Voir</a>' +
                     '<button type="button" class="admin-btn" data-action="medias" data-id="' + id + '">' +
                         '<i class="fa-solid fa-photo-film" aria-hidden="true"></i> Médias</button>' +

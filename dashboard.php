@@ -1,40 +1,22 @@
+<?php
+require __DIR__ . '/includes/bootstrap.php';
+exiger_connexion();
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <?= csrf_meta() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mes cours commencés - LearnAYOP</title>
     <meta name="description" content="Tous les cours commencés se trouvent ici">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/progress.css">
+    <script src="js/api.js" defer></script>
 </head>
 <body>
-    <header class="navbar">
-        <a href="index.html" class="logo">Learn<span>AYOP</span></a>
-        <button class="burger" id="burger" type="button"
-                aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="main-nav">
-            <i class="fa-solid fa-bars" aria-hidden="true"></i>
-        </button>
-        <nav class="nav-links" id="main-nav" aria-label="Navigation principale">
-            <a href="index.html">
-                <i class="fa-solid fa-house" aria-hidden="true"></i>
-                Accueil
-            </a>
-            <a href="courses.html">
-                <i class="fa-solid fa-book-open" aria-hidden="true"></i>
-                Tous les cours
-            </a>
-            <a href="dashboard.html#en-cours" class="active">
-                <i class="fa-solid fa-circle-play" aria-hidden="true"></i>
-                Mes cours commencés
-            </a>
-            <a href="administration.html">
-                <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
-                Administration
-            </a>
-        </nav>
-    </header>
+   <?php require __DIR__ . '/includes/navbar.php'; ?>
     <main>
         <section class="section-container" id="en-cours">
             <div class="section-heading">

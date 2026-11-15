@@ -345,7 +345,7 @@
             throw new Error("Stockage du navigateur plein : utilise des liens plutôt que des fichiers pour les images.");
         }
         //redirection lel admin.html
-        location.href = 'administration.html';
+        location.href = 'administration.php';
     }
 //evenement mta3 submit
     form.addEventListener('submit', function (e) {

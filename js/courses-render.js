@@ -46,7 +46,7 @@
                     '</span>' +
                     '<span>' + esc(meta.difficulte) + '</span>' +
                 '</div>' +
-                '<a href="course.html?id=' + esc(meta.id) + '" class="course-button">' +
+                '<a href="course.php?id=' + esc(meta.id) + '" class="course-button">' +
                     'Voir le cours ' +
                     '<i class="fa-solid fa-arrow-right" aria-hidden="true"></i>' +
                 '</a>' +

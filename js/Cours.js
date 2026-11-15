@@ -837,7 +837,7 @@ if (!cours) {
     lessonTitle.textContent = "Cours introuvable";
     lessonContent.innerHTML =
         '<p>Le cours demandé n’existe pas ou son identifiant est incorrect.</p>' +
-        '<p><a href="courses.html">Retour au catalogue</a></p>';
+        '<p><a href="courses.php">Retour au catalogue</a></p>';
     sidebar.style.display = "none";
     prevBtn.disabled = true;
     nextBtn.disabled = true;

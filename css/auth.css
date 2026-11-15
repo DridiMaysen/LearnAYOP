@@ -1,0 +1,37 @@
+/* Pages de connexion / inscription */
+.auth-card {
+    max-width: 440px;
+    margin: 56px auto;
+    padding: 36px 32px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+.auth-card h1 { margin-bottom: 20px; font-size: 1.8rem; }
+.auth-card label { display: block; margin: 14px 0 6px; font-weight: 600; font-size: .95rem; }
+.auth-card input[type="text"],
+.auth-card input[type="email"],
+.auth-card input[type="password"] {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: var(--background);
+    color: var(--text);
+}
+.auth-card input:focus-visible { outline: 3px solid #14b8a6; border-color: var(--primary); }
+.auth-card .primary-button {
+    display: block; width: 100%; margin-top: 22px;
+    text-align: center; border: 0; cursor: pointer; font-family: inherit;
+}
+.auth-hint  { display: block; margin-top: 4px; color: var(--muted); font-size: .82rem; }
+.auth-error { display: block; margin-top: 4px; color: #b91c1c; font-size: .85rem; }
+.auth-alert {
+    margin-bottom: 8px; padding: 12px 14px; border-radius: 8px;
+    background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; font-size: .95rem;
+}
+.auth-alt { margin-top: 22px; text-align: center; color: var(--muted); font-size: .95rem; }
+.auth-alt a { color: var(--primary); font-weight: 600; }
+

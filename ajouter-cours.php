@@ -1,7 +1,12 @@
+<?php
+require __DIR__ . '/includes/bootstrap.php';
+exiger_admin();
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <?= csrf_meta() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajouter un cours - LearnAYOP</title>
      <meta name="description" content="Ajouter les cours dans LearnAYOP.">
@@ -10,19 +15,7 @@
     <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
-    <header class="navbar">
-        <a href="index.html" class="logo">Learn<span>AYOP</span></a>
-        <button class="burger" id="burger" type="button"
-                aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="main-nav">
-            <i class="fa-solid fa-bars" aria-hidden="true"></i>
-        </button>
-        <nav class="nav-links" id="main-nav" aria-label="Navigation principale">
-            <a href="index.html"><i class="fa-solid fa-house" aria-hidden="true"></i> Accueil</a>
-            <a href="courses.html"><i class="fa-solid fa-book-open" aria-hidden="true"></i> Tous les cours</a>
-            <a href="dashboard.html#en-cours"><i class="fa-solid fa-circle-play" aria-hidden="true"></i> Mes cours commencés</a>
-            <a href="administration.html" class="active"><i class="fa-solid fa-user-shield" aria-hidden="true"></i> Administration</a>
-        </nav>
-    </header>
+    <?php require __DIR__ . '/includes/navbar.php'; ?>
 
     <main>
         <section class="admin-panel section-container">

@@ -1,41 +1,24 @@
+<?php
+require __DIR__ . '/includes/bootstrap.php';
+exiger_admin();
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <?= csrf_meta() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tous les cours - LearnAYOP</title>
-    <meta name="description" content="Parcourez tous les cours LearnAYOP : mathématiques, bases de données, électricité et électronique. Filtrez par niveau et par matière.">
+    <title>Administration - LearnAYOP</title>
+    <meta name="description" content="Gérer les cours de LearnAYOP.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/progress.css">
+    <link rel="stylesheet" href="css/admin.css">
 </head>
 
 <body>
-    <header class="navbar">
-        <a href="index.html" class="logo">Learn<span>AYOP</span></a>
-        <button class="burger" id="burger" type="button"
-                aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="main-nav">
-            <i class="fa-solid fa-bars" aria-hidden="true"></i>
-        </button>
-        <nav class="nav-links" id="main-nav" aria-label="Navigation principale">
-            <a href="index.html">
-                <i class="fa-solid fa-house" aria-hidden="true"></i>
-                Accueil
-            </a>
-            <a href="courses.html" class="active">
-                <i class="fa-solid fa-book-open" aria-hidden="true"></i>
-                Tous les cours
-            </a>
-            <a href="dashboard.html#en-cours">
-                <i class="fa-solid fa-circle-play" aria-hidden="true"></i>
-                Mes cours commencés
-            </a>
-            <a href="administration.html">
-                <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
-                Administration
-            </a>
-        </nav>
-    </header>
+   <?php require __DIR__ . '/includes/navbar.php'; ?>
+
     <main>
         <div class="topbar">
             <label class="search-box">
@@ -61,9 +44,12 @@
         <section class="popular-courses section-container">
             <div class="section-heading">
                 <div>
-                    <p class="eyebrow">CATALOGUE</p>
+                    <p class="eyebrow">ADMINISTRATION</p>
                     <h1>Tous les cours</h1>
                 </div>
+                <a href="ajouter-cours.html" class="primary-button">
+                    <i class="fa-solid fa-plus" aria-hidden="true"></i> Ajouter un cours
+                </a>
             </div>
 
             <!-- Les cartes sont générées par courses-render.js -->
@@ -74,6 +60,7 @@
             </div>
         </section>
     </main>
+
     <footer class="footer">
         <a href="index.html" class="logo">Learn<span>AYOP</span></a>
         <p>Apprendre aujourd'hui, réussir demain.</p>
@@ -85,6 +72,31 @@
     <script src="js/donnees-cours.js"></script>
     <script src="js/cours-admin-store.js"></script>
     <script src="js/courses-render.js"></script>
+    <script>
+    document.querySelectorAll('.course-card').forEach(function (carte) {
+        var bouton = carte.querySelector('.course-button');
+        if (bouton) bouton.remove();
+
+        var id = carte.dataset.id;
+        var titre = carte.querySelector('h2').textContent;
+
+        var actions = document.createElement('div');
+        actions.className = 'admin-actions';
+        actions.innerHTML =
+            '<button type="button" class="admin-btn danger" data-action="supprimer">' +
+            '<i class="fa-solid fa-trash" aria-hidden="true"></i> Supprimer</button>';
+        carte.querySelector('.course-info').appendChild(actions);
+
+        actions.querySelector('button').addEventListener('click', function () {
+            var ok = confirm('Supprimer définitivement le cours « ' + titre + ' » (' + id + ') ?\n' +
+                'Il disparaîtra aussi côté étudiant, avec sa progression. Cette action est irréversible.');
+            if (!ok) return;
+            //on appelle la fonction de suppression dans cours-admin-store
+            CoursAdmin.supprimerCours(id);
+            location.reload();
+        });
+    });
+</script>
     <script src="js/progress.js"></script>
     <script src="js/search.js"></script>
 </body>

@@ -1,3 +1,6 @@
+<?php
+require __DIR__ . '/includes/bootstrap.php';
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -7,33 +10,10 @@
     <meta name="description" content="LearnAYOP, la mini plateforme d'apprentissage en ligne : découvrez des cours, apprenez à votre rythme et suivez votre progression.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
 </head>
 <body>
-    <header class="navbar">
-        <a href="index.html" class="logo">Learn<span>AYOP</span></a>
-        <button class="burger" id="burger" type="button"
-                aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="main-nav">
-            <i class="fa-solid fa-bars" aria-hidden="true"></i>
-        </button>
-        <nav class="nav-links" id="main-nav" aria-label="Navigation principale">
-            <a href="index.html" class="active">
-                <i class="fa-solid fa-house" aria-hidden="true"></i>
-                Accueil
-            </a>
-            <a href="courses.html">
-                <i class="fa-solid fa-book-open" aria-hidden="true"></i>
-                Tous les cours
-            </a>
-            <a href="dashboard.html#en-cours">
-                <i class="fa-solid fa-circle-play" aria-hidden="true"></i>
-                Mes cours commencés
-            </a>
-            <a href="administration.html">
-                <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
-                Administration
-            </a>
-        </nav>
-    </header>
+   <?php require __DIR__ . '/includes/navbar.php'; ?>
     <main>
         <section class="hero">
             <div class="hero-content">
@@ -46,7 +26,7 @@
                     Découvrez des cours passionnants, apprenez de nouvelles
                     compétences et construisez votre avenir dès aujourd'hui.
                 </p>
-                <a href="courses.html" class="primary-button">
+                <a href="courses.php" class="primary-button">
                     Explorer les cours
                     <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
                 </a>
@@ -80,7 +60,7 @@
         </section>
     </main>
     <footer class="footer">
-        <a href="index.html" class="logo">Learn<span>AYOP</span></a>
+        <a href="index.php" class="logo">Learn<span>AYOP</span></a>
         <p>Apprendre aujourd'hui, réussir demain.</p>
         <p>© 2026 LearnAYOP — Mini plateforme d'apprentissage.</p>
     </footer>

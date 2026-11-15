@@ -92,7 +92,7 @@
                     '<span class="course-tag">' + c.tag + '</span>' +
                     '<h3>' + c.title + '</h3>' +
                     barHTML(id) +
-                    '<a href="course.html?id=' + id + '" class="course-button">' +
+                    '<a href="course.php?id=' + id + '" class="course-button">' +
                         (getPercent(id) === 100 ? 'Revoir le cours →' : 'Continuer le cours →') +
                     '</a>' +
                 '</div>' +
