@@ -2,237 +2,127 @@
 
 ## 1. Présentation du projet
 
-**LearnAYOP** est une plateforme web d'apprentissage en ligne conçue pour faciliter l'accès aux cours et permettre aux utilisateurs d'apprendre de manière interactive et organisée.
+**LearnAYOP** est une plateforme web d'apprentissage en ligne conçue pour faciliter l'accès aux cours et permettre aux étudiants (notamment à l'ISSAT Sousse) d'apprendre de manière interactive et organisée.
 
-La plateforme propose un espace d'apprentissage permettant aux étudiants de consulter des cours, parcourir leurs différents modules et parties, répondre à des quiz et suivre leur progression.
+La plateforme propose un espace d'apprentissage complet permettant aux utilisateurs inscrits de consulter un catalogue de cours, parcourir les différents modules et leçons, valider leurs connaissances grâce à des quiz et sauvegarder leur progression en base de données.
 
-Elle intègre également une interface d'administration permettant de gérer le contenu pédagogique, notamment l'ajout et la suppression des cours.
+Elle intègre également un espace d'administration sécurisé permettant de gérer l'ensemble du contenu pédagogique : ajout, modification et suppression des cours.
 
 ## 2. Objectifs du projet
 
 Les principaux objectifs de LearnAYOP sont :
 
-- Faciliter l'accès aux ressources pédagogiques.
-- Organiser les cours sous forme de modules et de parties.
-- Proposer des quiz pour évaluer les connaissances des apprenants.
-- Permettre le suivi de la progression des utilisateurs.
-- Offrir une interface d'administration pour gérer les cours.
-- Améliorer l'expérience d'apprentissage grâce à une interface simple et intuitive.
+- Faciliter l'accès aux ressources pédagogiques via une architecture client-serveur dynamique.
+- Gérer l'authentification des utilisateurs et le contrôle d'accès par rôles (Étudiant / Administrateur).
+- Organiser les cours sous forme de modules, de leçons (texte ou HTML riche) et de quiz.
+- Permettre le suivi persistant de la progression des utilisateurs dans MySQL.
+- Offrir une interface d'administration complète (création, édition et suppression des cours).
+- Garantir la sécurité de l'application (hachage des mots de passe, requêtes préparées PDO, protection CSRF/XSS).
+- Améliorer l'expérience utilisateur grâce à une interface responsive et des options de confort (mode sombre, plein écran, masquage du plan).
 
 ## 3. Fonctionnalités principales
 
-### 3.1. Espace utilisateur
+### 3.1. Authentification et gestion des comptes
 
-**Page d'accueil (index.html)**
-- Présentation de la plateforme.
-- Accès aux principales fonctionnalités.
-- Navigation vers les différentes sections.
+**Inscription (`register.php`) et Connexion (`login.php`)**
+- Création de compte utilisateur et authentification sécurisée.
+- Redirection automatique selon le rôle (espace étudiant ou administration).
+- Protection contre les attaques par force brute (limitation des tentatives de connexion) et déconnexion sécurisée (`logout.php`).
 
-**Catalogue des cours (courses.html)**
-- Affichage des cours disponibles.
-- Recherche de cours.
-- Filtrage et consultation des cours.
+### 3.2. Espace étudiant
 
-**Lecteur de cours (course.html)**
-- Consultation du contenu pédagogique.
-- Navigation entre les modules et les différentes parties.
-- Accès aux quiz associés aux cours.
-- Affichage du contenu dans une interface adaptée à l'apprentissage.
+**Page d'accueil (`index.php`)**
+- Présentation générale de la plateforme et accès rapide aux fonctionnalités.
+- Barre de navigation dynamique adaptée à l'état de connexion et au rôle de l'utilisateur.
 
-**Tableau de bord (dashboard.html)**
+**Catalogue des cours (`courses.php`)**
+- Affichage dynamique des cours depuis la base de données.
+- Recherche en temps réel tolérante aux accents et à la casse.
+- Filtrage par niveau et par matière.
+
+**Lecteur de cours (`course.php`)**
+- Consultation du contenu pédagogique structuré par modules et leçons.
+- Quiz interactifs en fin de module et évaluation finale.
+- Options de confort de lecture : thème sombre, mode plein écran et masquage du menu latéral.
+
+**Tableau de bord (`dashboard.php`)**
 - Consultation des cours commencés.
-- Suivi de la progression.
-- Visualisation de l'avancement dans les cours.
+- Visualisation détaillée de l'avancement et reprise rapide de l'apprentissage.
 
-### 3.2. Espace administrateur
+### 3.3. Espace administrateur
 
-**Administration (administration.html)**
+**Administration (`administration.php`)**
+- Vue d'ensemble des cours enregistrés sur la plateforme.
+- Accès rapide à la création, la modification et la suppression d'un cours.
 
-L'interface d'administration permet de gérer le contenu pédagogique de la plateforme.
+**Ajout et modification d'un cours (`ajouter-cours.php`)**
+- Création d'un nouveau cours ou édition d'un cours existant.
+- Définition des métadonnées (titre, matière, niveau, difficulté, description).
+- Gestion dynamique des modules, des leçons (texte simple ou HTML) et des quiz associés.
 
-Ses principales fonctionnalités sont :
-- Consulter les cours existants.
-- Ajouter de nouveaux cours.
-- Supprimer des cours.
+### 3.4. Sécurité mise en œuvre
 
-**Ajout d'un cours (ajouter-cours.html)**
-
-Cette interface permet à l'administrateur de créer un cours en définissant :
-- Le titre du cours.
-- Les différents modules.
-- Les parties associées à chaque module.
-- Les quiz correspondant aux différentes parties.
-
-### 3.3. Gestion de la progression
-
-La plateforme intègre un mécanisme de suivi permettant de visualiser l'avancement des apprenants dans leurs cours.
-
-### 3.4. Recherche et navigation
-
-Des fonctionnalités de recherche et de navigation facilitent l'accès aux cours et aux différentes sections de la plateforme.
+- **Hachage des mots de passe :** utilisation de `password_hash()` (bcrypt) et `password_verify()`.
+- **Requêtes préparées :** utilisation systématique de PDO pour prévenir les injections SQL.
+- **Protection CSRF et XSS :** jetons de sécurité sur les formulaires POST et échappement des sorties HTML.
+- **Sessions sécurisées :** cookies `HttpOnly` et `SameSite`, expiration après inactivité.
 
 ## 4. Technologies utilisées
 
 | Technologie | Utilisation |
 |---|---|
-| HTML5 | Structure des pages web |
-| CSS3 | Mise en forme et design des interfaces |
-| JavaScript | Gestion des interactions et des fonctionnalités dynamiques |
+| HTML5 | Structure sémantique des pages |
+| CSS3 | Mise en forme, design responsive (Flexbox/Grid) et thème sombre |
+| JavaScript (ES6+) | Interactions dynamiques, appels API (`fetch`), lecteur de cours et filtrage |
+| PHP 8.3 | Logique serveur, authentification, sécurité et API REST interne |
+| MySQL | Base de données relationnelle (utilisateurs, cours, progression) |
 
 ## 5. Structure du projet
 
 ```text
 LearnAYOP/
-│
+├── api/
+│   ├── config.php             # Configuration de l'API
+│   ├── cours_ajouter.php      # Endpoint de création d'un cours
+│   ├── cours_js.php           # Fourniture des données des cours au client
+│   ├── cours_modifier.php     # Endpoint de modification d'un cours
+│   ├── cours_supprimer.php    # Endpoint de suppression d'un cours
+│   └── progression.php        # Enregistrement et récupération de la progression
+├── config/
+│   ├── config.example.php     # Modèle de configuration
+│   ├── config.php             # Configuration locale (non versionnée)
+│   └── db.php                 # Connexion PDO à la base de données
 ├── css/
-│   ├── admin.css
-│   ├── cours.css
-│   ├── progress.css
-│   └── style.css
-│
+│   ├── admin.css              # Styles de l'interface d'administration
+│   ├── auth.css               # Styles des pages de connexion et d'inscription
+│   ├── cours.css              # Styles du lecteur de cours et du mode sombre
+│   ├── progress.css           # Styles des barres et indicateurs de progression
+│   └── style.css              # Styles globaux et barre de navigation
+├── database/
+│   └── schema.sql             # Script SQL de création des tables
+├── includes/
+│   ├── auth.php               # Contrôle d'accès et vérification des rôles
+│   ├── bootstrap.php          # Initialisation commune de l'application
+│   ├── csrf.php               # Génération et vérification des jetons CSRF
+│   ├── helpers.php            # Fonctions utilitaires (échappement, etc.)
+│   ├── navbar.php             # Barre de navigation commune dynamique
+│   └── session.php            # Gestion sécurisée des sessions
 ├── js/
-│   ├── admin.js
-│   ├── ajouter-cours.js
-│   ├── catalogue.js
-│   ├── cours-admin-store.js
-│   ├── cours.js
-│   ├── courses-render.js
-│   ├── donnees-cours.js
-│   ├── menu.js
-│   ├── progress.js
-│   └── search.js
-│
-├── administration.html
-├── ajouter-cours.html
-├── course.html
-├── courses.html
-├── dashboard.html
-└── index.html
-```
-
-### Description des dossiers
-
-**css/**
-
-Contient les feuilles de style utilisées pour personnaliser l'apparence des différentes interfaces.
-
-- `admin.css` : styles de l'interface d'administration.
-- `cours.css` : styles du lecteur de cours.
-- `progress.css` : styles des éléments de progression.
-- `style.css` : styles généraux de la plateforme.
-
-**js/**
-
-Contient les scripts JavaScript responsables de la logique et des interactions.
-
-- `admin.js` : gestion des fonctionnalités administratives.
-- `ajouter-cours.js` : logique d'ajout des cours.
-- `catalogue.js` : gestion du catalogue.
-- `cours-admin-store.js` : gestion du stockage des cours côté administration.
-- `cours.js` : fonctionnement du lecteur de cours.
-- `courses-render.js` : affichage dynamique des cours.
-- `donnees-cours.js` : données pédagogiques et quiz.
-- `menu.js` : gestion de la navigation.
-- `progress.js` : suivi de la progression.
-- `search.js` : recherche des cours.
-
-## 6. Installation et exécution
-
-### Prérequis
-
-- Un navigateur web récent (Google Chrome, Firefox, Edge...).
-- Visual Studio Code (recommandé).
-- L'extension Live Server de Visual Studio Code (facultative, mais recommandée).
-
-### Étapes d'installation
-
-**1. Récupérer le projet depuis GitHub**
-
-```bash
-git clone URL_DU_DEPOT
-```
-
-**2. Accéder au dossier du projet**
-
-```bash
-cd LearnAYOP
-```
-
-**3. Ouvrir le projet dans Visual Studio Code**
-
-```bash
-code .
-```
-
-**4. Lancer l'application**
-
-Deux possibilités :
-
-- Ouvrir directement le fichier `index.html` dans un navigateur.
-- Utiliser l'extension Live Server et cliquer sur **Open with Live Server**.
-
-La page d'accueil de la plateforme sera alors accessible dans le navigateur.
-
-## 7. Utilisation de la plateforme
-
-### Pour les apprenants
-
-1. Accéder à la page d'accueil.
-2. Consulter le catalogue des cours.
-3. Choisir un cours.
-4. Parcourir les modules et les différentes parties.
-5. Répondre aux quiz proposés.
-6. Consulter le tableau de bord pour suivre sa progression.
-
-### Pour l'administrateur
-
-1. Accéder à l'interface d'administration.
-2. Consulter les cours existants.
-3. Ajouter un cours en renseignant son titre, ses modules, ses parties et ses quiz.
-4. Supprimer un cours si nécessaire.
-
-## 8. Organisation pédagogique
-
-Le contenu pédagogique de LearnAYOP suit une organisation hiérarchique :
-
-```text
-Cours
-  |
-  ├── Module 1
-  |     ├── Partie 1
-  |     ├── Partie 2
-  |     └── Quiz
-  |
-  ├── Module 2
-  |     ├── Partie 1
-  |     ├── Partie 2
-  |     └── Quiz
-  |
-  └── Module 3
-        ├── Partie 1
-        └── Quiz
-```
-
-Cette organisation permet de structurer les ressources pédagogiques et de faciliter leur consultation.
-
-## 9. Perspectives d'amélioration
-
-Plusieurs évolutions peuvent être envisagées pour enrichir la plateforme :
-
-- Intégration d'un système d'authentification.
-- Mise en place d'une base de données pour la gestion des utilisateurs et des cours.
-- Ajout d'un système de gestion des rôles.
-- Enrichissement des statistiques de progression.
-- Ajout de nouveaux types de quiz et d'évaluations.
-- Adaptation complète aux appareils mobiles.
-
-## 10. Auteur
-
-**Projet :** LearnAYOP  
-**Type :** Plateforme web d'apprentissage en ligne  
-**Technologies :** HTML5, CSS3 et JavaScript  
-**Dépôt :** GitHub
-
----
-
-*LearnAYOP – Learn, Practice and Progress.*
+│   ├── ajouter-cours.js       # Logique front-end d'ajout et de modification des cours
+│   ├── api.js                 # Gestion centralisée des requêtes AJAX/Fetch avec CSRF
+│   ├── Cours.js               # Logique du lecteur de cours et validation des quiz
+│   ├── courses-render.js      # Affichage dynamique des cartes de cours
+│   ├── menu.js                # Gestion du menu responsive
+│   ├── Progress.js            # Synchronisation et affichage de la progression
+│   └── search.js              # Recherche et filtrage en temps réel
+├── scripts/
+│   └── creer-admin.php        # Script d'initialisation d'un compte administrateur
+├── administration.php         # Tableau de bord administrateur
+├── ajouter-cours.php          # Interface de création et d'édition d'un cours
+├── course.php                 # Lecteur de cours
+├── courses.php                # Catalogue des cours
+├── dashboard.php              # Tableau de bord étudiant
+├── index.php                  # Page d'accueil
+├── login.php                  # Page de connexion
+├── logout.php                 # Traitement de la déconnexion
+└── register.php               # Page d'inscription
