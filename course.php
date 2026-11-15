@@ -15,7 +15,7 @@ exiger_connexion();
     <link rel="stylesheet" href="css/progress.css">
     <link rel="stylesheet" href="css/cours.css">
     <script src="js/menu.js" defer></script>
-    <script src="php/cours_js.php" defer></script>
+    <script src="api/cours_js.php" defer></script>
     <script src="js/api.js" defer></script>
     <script src="js/progress.js" defer></script>
     <script src="js/cours.js" defer></script>

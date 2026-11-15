@@ -1,14 +1,13 @@
 <?php
 require __DIR__ . '/includes/bootstrap.php';
 
-if (utilisateur_courant()) {
-    rediriger('index.php');
+if ($u = utilisateur_courant()) {
+    rediriger($u['role'] === 'admin' ? 'administration.php' : 'courses.php');
 }
 
 $erreur = null;
 $email  = '';
-// Page où revenir après connexion (validée : uniquement une page .php locale)
-$redirect = redirection_sure($_GET['redirect'] ?? $_POST['redirect'] ?? null, 'dashboard.php');
+$cibleDemandee = $_GET['redirect'] ?? $_POST['redirect'] ?? null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_verifier();
@@ -16,7 +15,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $resultat = tenter_connexion($email, (string) ($_POST['mot_de_passe'] ?? ''));
 
     if ($resultat['ok']) {
-        rediriger($redirect);
+        $u = utilisateur_courant(true);
+
+        $destination = ($u && $u['role'] === 'admin')
+            ? 'administration.php'
+            : redirection_sure($cibleDemandee, 'courses.php');
+
+        rediriger($destination);
     }
     $erreur = $resultat['erreur'];
 }
@@ -44,7 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <form method="post" action="login.php" novalidate>
             <?= csrf_champ() ?>
-            <input type="hidden" name="redirect" value="<?= e($redirect) ?>">
+            <?php if (is_string($cibleDemandee) && $cibleDemandee !== ''): ?>
+                <input type="hidden" name="redirect" value="<?= e($cibleDemandee) ?>">
+            <?php endif; ?>
 
             <label for="email">Adresse email</label>
             <input type="email" id="email" name="email" value="<?= e($email) ?>"

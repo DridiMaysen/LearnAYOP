@@ -1,26 +1,27 @@
 <?php
 require __DIR__ . '/includes/bootstrap.php';
 
-// Déjà connecté : inutile de s'inscrire
-if (utilisateur_courant()) {
-    rediriger('index.php');
+// Déjà connecté : on redirige selon son rôle
+if ($u = utilisateur_courant()) {
+    rediriger($u['role'] === 'admin' ? 'administration.php' : 'courses.php');
 }
 
 $erreurs = [];
-$nom = $email = '';      // pour ré-afficher ce que la personne a tapé
+$nom = $email = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    csrf_verifier();                              // 1) jeton valide ?
+    csrf_verifier();
     $nom   = (string) ($_POST['nom'] ?? '');
     $email = (string) ($_POST['email'] ?? '');
 
-    $resultat = inscrire_utilisateur(             // 2) toute la logique est dans auth.php
-        $nom, $email,
+    $resultat = inscrire_utilisateur(
+        $nom,
+        $email,
         (string) ($_POST['mot_de_passe'] ?? ''),
         (string) ($_POST['confirmation'] ?? '')
     );
     if ($resultat['ok']) {
-        rediriger('dashboard.php');                   // 3) succès : on redirige (évite le renvoi du POST avec F5)
+        rediriger('courses.php');
     }
     $erreurs = $resultat['erreurs'];
 }

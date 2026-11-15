@@ -1,29 +1,36 @@
 (function () {
-    const KEY = 'learnayop_progress';
     const COURSES = {};
+    let ETAT_BDD = {};
+
+    function compterTotalEtapes(cle) {
+        if (typeof donneesCours === 'undefined' || !donneesCours[cle]) return 0;
+        const c = donneesCours[cle];
+        let total = 0;
+        (c.modules || []).forEach(function (mod) {
+            total += (mod.parties ? mod.parties.length : 0) + 1; // leçons + quiz module
+        });
+        total += 1; // évaluation finale
+        return total;
+    }
 
     (window.CATALOGUE || []).forEach(function (c) {
         COURSES[c.id] = {
+            cle: c.cle,
             title: c.titreCarte,
             sigle: c.sigle || c.titreCarte,
             emoji: c.icone || c.emoji,
             cover: c.cover,
-            tag: c.tag
+            tag: c.tag,
+            total: compterTotalEtapes(c.cle)
         };
     });
 
-    function load() {
-        try { return JSON.parse(localStorage.getItem(KEY)) || {}; }
-        catch (e) { return {}; }
-    }
-
-    function save(data) {
-        try { localStorage.setItem(KEY, JSON.stringify(data)); }
-        catch (e) { }
-    }
-
     function getEntry(id) {
-        return load()[id] || { done: 0, total: 0 };
+        const meta = COURSES[id];
+        const total = meta ? meta.total : 0;
+        const donnees = ETAT_BDD[id];
+        const done = donnees && Array.isArray(donnees.terminees) ? donnees.terminees.length : 0;
+        return { done: Math.min(done, total), total: total };
     }
 
     function getPercent(id) {
@@ -34,20 +41,6 @@
 
     function isStarted(id) {
         return getEntry(id).done > 0;
-    }
-
-    function setSummary(id, done, total) {
-        const data = load();
-        data[id] = { done: done, total: total };
-        save(data);
-    }
-
-    function reset(id) {
-        const data = load();
-        delete data[id];
-        save(data);
-        try { localStorage.removeItem('learnayop_progress_' + id); }
-        catch (e) { }
     }
 
     function barHTML(id) {
@@ -64,7 +57,7 @@
             const id = card.dataset.id;
             if (!COURSES[id] || !isStarted(id)) return;
             const button = card.querySelector('.course-button');
-            if (!button) return;
+            if (!button || card.querySelector('.progress')) return;
             button.insertAdjacentHTML('beforebegin', barHTML(id));
             button.textContent = getPercent(id) === 100 ? 'Revoir le cours →' : 'Continuer le cours →';
         });
@@ -76,11 +69,11 @@
         const started = Object.keys(COURSES).filter(isStarted);
         const empty = document.getElementById('started-empty');
         if (started.length === 0) {
-            empty.style.display = 'block';
+            if (empty) empty.style.display = 'block';
             list.innerHTML = '';
             return;
         }
-        empty.style.display = 'none';
+        if (empty) empty.style.display = 'none';
         list.innerHTML = started.map(function (id) {
             const c = COURSES[id];
             return '<article class="course-card">' +
@@ -100,16 +93,32 @@
         }).join('');
     }
 
+    function chargerDepuisBackend() {
+        if (typeof apiGet !== 'function') return Promise.resolve(ETAT_BDD);
+        return apiGet('api/progression.php')
+            .then(function (rep) {
+                if (rep && rep.ok && rep.cours) {
+                    ETAT_BDD = rep.cours;
+                }
+                renderCourseCards();
+                renderDashboard();
+                return ETAT_BDD;
+            })
+            .catch(function () {
+                renderDashboard();
+                return ETAT_BDD;
+            });
+    }
+
     window.LearnProgress = {
         courses: COURSES,
         getPercent: getPercent,
         isStarted: isStarted,
-        setSummary: setSummary,
-        reset: reset
+        charger: chargerDepuisBackend,
+        getCoursData: function (id) {
+            return ETAT_BDD[id] || { terminees: [], position: 0, videos: {} };
+        }
     };
 
-    document.addEventListener('DOMContentLoaded', function () {
-        renderCourseCards();
-        renderDashboard();
-    });
+    document.addEventListener('DOMContentLoaded', chargerDepuisBackend);
 })();

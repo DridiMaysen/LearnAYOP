@@ -378,7 +378,7 @@
             quizFinal: quizFinal
         };
 
-        var endpoint = idEdition ? 'php/cours_modifier.php' : 'php/cours_ajouter.php';
+        var endpoint = idEdition ? 'api/cours_modifier.php' : 'api/cours_ajouter.php';
         var payload  = idEdition ? { id: idEdition, meta: meta, cours: cours } : { meta: meta, cours: cours };
 
         apiPost(endpoint, payload)

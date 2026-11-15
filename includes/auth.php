@@ -13,13 +13,14 @@ const FENETRE_ECHECS   = 900;    // ...pendant 15 minutes (en secondes)
 // Hash d'un mot de passe bidon. Sert quand l'email n'existe pas, pour que
 // password_verify() travaille quand même (même temps de réponse dans tous les cas).
 const HASH_FACTICE = '$2y$10$heOFnCfkX2rnYGFIgRL30e3sDTi6UKbzwJKu55BtEeqOLAmyMncNS';
+
 /* ---------- BLOC A : l'utilisateur connecté ---------- */
 
 /** Renvoie l'utilisateur connecté (tableau) ou null. Relit la base : le rôle est toujours à jour. */
-function utilisateur_courant(): ?array
+function utilisateur_courant(bool $recharger = false): ?array
 {
     static $cache = false;               // évite de refaire la requête à chaque appel
-    if ($cache !== false) {
+    if ($cache !== false && !$recharger) {
         return $cache;
     }
     $id = $_SESSION['user_id'] ?? null;
@@ -42,6 +43,7 @@ function connecter_utilisateur(int $id): void
     $_SESSION['user_id'] = $id;
     $_SESSION['derniere_activite'] = time();
     unset($_SESSION['csrf']);             // nouveau jeton CSRF après changement de privilèges
+    utilisateur_courant(true);            // actualise immédiatement le cache
 }
 
 function deconnecter_utilisateur(): void
@@ -50,12 +52,17 @@ function deconnecter_utilisateur(): void
     if (ini_get('session.use_cookies')) {
         $p = session_get_cookie_params();
         setcookie(session_name(), '', [
-            'expires'  => time() - 3600, 'path' => $p['path'], 'domain' => $p['domain'],
-            'secure'   => $p['secure'], 'httponly' => true, 'samesite' => 'Lax',
+            'expires'  => time() - 3600,
+            'path'     => $p['path'],
+            'domain'   => $p['domain'],
+            'secure'   => $p['secure'],
+            'httponly' => true,
+            'samesite' => 'Lax',
         ]);
     }
     session_destroy();
 }
+
 /* ---------- BLOC B : contrôle d'accès (gardes) ---------- */
 
 /** À mettre en haut d'une page réservée aux connectés. */
@@ -80,6 +87,7 @@ function exiger_admin(): array
     }
     return $u;
 }
+
 /* ---------- BLOC C : protection contre la force brute ---------- */
 
 function trop_d_echecs(string $email, string $ip): bool
@@ -110,6 +118,7 @@ function effacer_echecs(string $email): void
 {
     db()->prepare('DELETE FROM tentatives_connexion WHERE email = ?')->execute([$email]);
 }
+
 /* ---------- BLOC D : la connexion ---------- */
 
 /** @return array{ok:bool, erreur:?string} */
@@ -145,6 +154,7 @@ function tenter_connexion(string $email, string $mdp): array
     connecter_utilisateur((int) $u['id']);
     return ['ok' => true, 'erreur' => null];
 }
+
 /* ---------- BLOC E : l'inscription ---------- */
 
 /** @return array{ok:bool, erreurs:array<string,string>} */

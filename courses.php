@@ -60,8 +60,9 @@ require __DIR__ . '/includes/bootstrap.php';
     </footer>
 
     <script src="js/menu.js" defer></script>
-    <script src="php/cours_js.php"></script>
+    <script src="api/cours_js.php"></script>
     <script src="js/courses-render.js"></script>
+    <script src="js/api.js"></script>
     <script src="js/progress.js"></script>
     <script src="js/search.js"></script>
 </body>

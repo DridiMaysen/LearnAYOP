@@ -52,7 +52,6 @@ exiger_admin();
                 </a>
             </div>
 
-            <!-- Les cartes sont générées par courses-render.js -->
             <div class="course-grid" id="course-grid">
                 <p class="no-results" id="no-results">
                     Aucun cours ne correspond à votre recherche.
@@ -69,7 +68,7 @@ exiger_admin();
 
     <script src="js/menu.js" defer></script>
     <script src="js/api.js"></script>
-    <script src="php/cours_js.php"></script>
+    <script src="api/cours_js.php"></script>
     <script src="js/courses-render.js"></script>
     <script>
     if (window.CATALOGUE_ADMIN && typeof afficherCours === 'function') {
@@ -115,7 +114,7 @@ exiger_admin();
                 : 'Réafficher le cours « ' + titre + ' » (' + id + ') sur le site ?';
             if (!confirm(msg)) return;
 
-            apiPost('php/cours_supprimer.php', { id: id, visible: nouvelleVisibilite })
+            apiPost('api/cours_supprimer.php', { id: id, visible: nouvelleVisibilite })
                 .then(function (rep) {
                     if (!rep.ok) throw new Error(rep.erreur || 'Échec de la mise à jour');
                     location.reload();
@@ -124,7 +123,6 @@ exiger_admin();
         });
     });
     </script>
-    <script src="js/progress.js"></script>
     <script src="js/search.js"></script>
 </body>
 </html>

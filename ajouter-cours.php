@@ -87,7 +87,7 @@ exiger_admin();
 
    <script src="js/menu.js" defer></script>
     <script src="js/api.js"></script>
-    <script src="php/cours_js.php"></script>
+    <script src="api/cours_js.php"></script>
     <script src="js/ajouter-cours.js"></script>
 </body>
 </html>
