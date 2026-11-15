@@ -98,13 +98,15 @@ exiger_admin();
         var actions = document.createElement('div');
         actions.className = 'admin-actions';
         actions.innerHTML =
-            '<a href="ajouter-cours.php?id=' + encodeURIComponent(id) + '" class="admin-btn">' +
-            '<i class="fa-solid fa-pen" aria-hidden="true"></i> Modifier</a>' +
-            '<button type="button" class="admin-btn ' + (estVisible ? 'danger' : '') + '" data-action="visibilite">' +
-            (estVisible
-                ? '<i class="fa-solid fa-trash" aria-hidden="true"></i> Supprimer'
-                : '<i class="fa-solid fa-eye" aria-hidden="true"></i> Réafficher') +
-            '</button>';
+    '<a href="course.php?id=' + encodeURIComponent(id) + '" class="admin-btn">' +
+    '<i class="fa-solid fa-eye" aria-hidden="true"></i> Consulter</a>' +
+    '<a href="ajouter-cours.php?id=' + encodeURIComponent(id) + '" class="admin-btn">' +
+    '<i class="fa-solid fa-pen" aria-hidden="true"></i> Modifier</a>' +
+    '<button type="button" class="admin-btn ' + (estVisible ? 'danger' : '') + '" data-action="visibilite">' +
+    (estVisible
+        ? '<i class="fa-solid fa-trash" aria-hidden="true"></i> Supprimer'
+        : '<i class="fa-solid fa-eye" aria-hidden="true"></i> Réafficher') +
+    '</button>';
         carte.querySelector('.course-info').appendChild(actions);
 
         actions.querySelector('button').addEventListener('click', function () {

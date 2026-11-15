@@ -54,8 +54,15 @@
         '</article>';
     }
 
-    const grille = document.getElementById('course-grid');
-    if (!grille || !window.CATALOGUE || typeof donneesCours === 'undefined') return;
+const grille = document.getElementById('course-grid');
+if (!grille || typeof donneesCours === 'undefined') return;
 
-    grille.insertAdjacentHTML('afterbegin', window.CATALOGUE.map(creerCarte).join(''));
+// Affiche une liste de cours dans la grille.
+// Exposée en global : la page d'administration l'utilise pour afficher aussi les cours masqués.
+window.afficherCours = function (liste) {
+    grille.insertAdjacentHTML('afterbegin', liste.map(creerCarte).join(''));
+};
+
+// Comportement normal des autres pages : seulement les cours visibles
+if (window.CATALOGUE) window.afficherCours(window.CATALOGUE);
 })();
